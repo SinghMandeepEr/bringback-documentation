@@ -1,0 +1,11 @@
+Functional Requirements:
+1: User should be able to authenticate using OTP on phone number
+2: User should be able to upload image and get back reconstructed image.
+3: User should be able to see history of reconstructed images.
+4: Only logged in user should be able to use api
+5: Support for admin user
+6: (Phase 2) User should be able to search mathing images based on uploaded image.
+Non functional requirements:
+1: Application should be scalable by design
+2: Max limit on image is 1MB
+3: Api shoud be rate limited
