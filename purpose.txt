@@ -1,0 +1,3 @@
+Purpose
+This application helps reconstruct damaged or low-quality human faces from images (e.g., newspaper appeals for missing or unidentified individuals) using AI techniques.
+It also maintains a searchable database of reconstructed faces to assist in identifying and matching unknown individuals.
