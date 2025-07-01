@@ -9,3 +9,76 @@ Non functional requirements:
 1: Application should be scalable by design
 2: Max limit on image is 1MB
 3: Api shoud be rate limited
+Functional Requirements Refined
+------------------------
+
+1. User Authentication via OTP
+   - Users can register/login using a valid phone number.
+   - OTP is sent via SMS (e.g., Twilio, Firebase, AWS SNS).
+   - OTP must be:
+     - Time-bound (e.g., valid for 5 minutes)
+     - Secure (one-time use)
+   - After OTP verification, issue an authentication token (e.g., JWT).
+
+2. Face Image Upload and Reconstruction
+   - Authenticated users can upload face images (max size: 1MB).
+   - Image is processed using an AI model (e.g., GFPGAN or CodeFormer).
+   - Reconstructed image is returned (via base64 or URL).
+   - Optional: handle image processing asynchronously using a job queue.
+
+3. Image Reconstruction History
+   - Each user can view a history of their uploads.
+   - Each history item includes:
+     - Upload timestamp
+     - Original image thumbnail
+     - Reconstructed image
+     - Optional: processing status, result quality
+
+4. API Access Control
+   - All APIs (except login/OTP) require authentication.
+   - Use JWT or session-based authentication.
+   - Role-based access control:
+     - "user": upload, view history
+     - "admin": full access to all user data and analytics
+
+5. Admin User Support
+   - Admins can:
+     - View all users’ history and activities
+     - Moderate or delete inappropriate content
+     - Access usage stats and model performance metrics
+
+6. Phase 2 - Similar Image Search
+   - Users can search for similar reconstructed faces using an uploaded image.
+   - Use facial embeddings (e.g., FaceNet or InsightFace) for matching.
+   - Return top-N matches with similarity scores.
+   - Allow filtering results based on metadata (e.g., date, location, tag).
+
+
+Non-Functional Requirements Refined
+----------------------------
+
+1. Scalability
+   - Application must be horizontally scalable.
+   - Inference jobs should run in containers (e.g., GPU-enabled pods in GKE).
+   - Use job queues (e.g., Celery, RabbitMQ, Cloud Tasks) for processing.
+
+2. Image Upload Constraints
+   - Max image size: 1MB
+   - Supported formats: JPG, PNG
+   - Validate and compress uploads before storing
+
+3. API Rate Limiting
+   - Prevent abuse with per-user and per-IP rate limits.
+     - Example: max 10 uploads/hour/user
+     - Example: max 5 OTP requests/hour/phone number
+   - Implement using Redis or API Gateway-level rate limiting
+
+Optional Enhancements
+----------------------
+
+- Email fallback login option
+- Feedback system for image quality
+- Tagging/notes on reconstructed images
+- User ability to delete their image history (privacy/GDPR)
+- Export feature for downloading all images as ZIP
+
